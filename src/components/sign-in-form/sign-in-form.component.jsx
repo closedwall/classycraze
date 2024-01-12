@@ -12,27 +12,23 @@ const defaultUser ={
 const SignInForm =() =>{
     const [formFields, setFormFields] = useState(defaultUser);
     const {email, password} = formFields;
-    // console.log(formFields);
     const handleChange =(event)=>{
         const {name, value} = event.target;
         setFormFields({...formFields, [name]:value});
+    }
+    const signInWithGoogle =async()=>{
+        await signInWithGooglePopUp();
+        console.log("done")
     }
 
     const handleSubmit =async(event)=>{
         event.preventDefault();
         try {
-            const response = await SignInAuthUserWithEmailAndPassword(email,password);
-            console.log(response);
+            const {user} = await SignInAuthUserWithEmailAndPassword(email,password);
             setFormFields(defaultUser);
         } catch (error) {
            
         }
-    }
-
-    const signInWithGoogle =async()=>{
-        const {user} = await signInWithGooglePopUp();
-        await createUserDocumentFromAuth(user);
-        console.log("done")
     }
 
     return(
